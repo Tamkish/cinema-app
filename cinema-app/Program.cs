@@ -1,8 +1,29 @@
+using Microsoft.EntityFrameworkCore;
+using cinema_app.Data;
+using cinema_app.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<CinemaDbContext>(options =>
+    options.UseSqlServer(connectionString));
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
+{
+    options.Authority = builder.Configuration["Authority:Server"];
+    options.RequireHttpsMetadata = true;
+    options.Audience = "PlaygroundApi";
+});
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("Administrator", policy =>
+    {
+        policy.RequireClaim(AuthorizationConstants.PLAYGROUND_ADMIN_CLAIM, "1");
+    });
+});
 
 var app = builder.Build();
 
@@ -16,6 +37,8 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
+app.UseAuthorization();
 
 
 app.MapControllerRoute(

@@ -1,6 +1,6 @@
 {
-  "short_name": "cinema_app",
-  "name": "cinema_app",
+  "short_name": "cinema-app",
+  "name": "cinema-app",
   "icons": [
     {
       "src": "favicon.ico",
