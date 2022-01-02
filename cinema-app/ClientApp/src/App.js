@@ -15,6 +15,7 @@ import SilentRenewCallback from "./components/Auth/SilentRenewCallback";
 
 import './custom.css'
 import { MovieList } from './components/Movies/MovieList';
+import { MovieDetail } from './components/Movies/MovieDetail';
 
 export default class App extends Component {
   static displayName = App.name;
@@ -30,7 +31,10 @@ export default class App extends Component {
                             <Route index path='/' element={<Home />} />
                             <Route path="/sign-in" element={<Home />} />
                             <Route path="/sign-out" element={<Home />} />
+                            
                             <Route path="/movies" element={<MovieList />} />
+                            <Route path="/movies/:id" element={<MovieDetail/>}/>
+
                             {/*
                              <Route path='/public' element={<Public />} />
                             <Route path='/unprotected' element={<Unprotected />} />
